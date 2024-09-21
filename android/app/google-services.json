@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "876508160829",
+    "project_id": "carapp-f0675",
+    "storage_bucket": "carapp-f0675.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876508160829:android:4fcb2f3660ea394de6db54",
+        "android_client_info": {
+          "package_name": "com.carApp.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6hjazVovu8dpXX7Cov57gBVuRSCtzggw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
