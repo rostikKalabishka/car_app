@@ -116,7 +116,7 @@ class _CarDetailsPageState extends State<CarDetailsPage>
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Transform.scale(
-                          scale: _animationController!.value,
+                          scale: _animation!.value,
                           alignment: Alignment.center,
                           child: Image.asset(
                             'assets/maps.png',

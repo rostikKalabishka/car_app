@@ -1,7 +1,8 @@
-import 'package:car_app/data/models/car_model.dart';
+import 'package:car_app/presentation/bloc/car_bloc.dart';
 import 'package:car_app/presentation/page/car_details_page.dart';
 import 'package:car_app/presentation/widgets/car_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,59 +12,49 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Car> carList = [
-    const Car(
-      model: 'Fortuner Gr',
-      distance: 870,
-      fuelCapacity: 50,
-      pricePerHour: 45,
-    ),
-    const Car(
-      model: 'Fortuner Gr',
-      distance: 870,
-      fuelCapacity: 50,
-      pricePerHour: 45,
-    ),
-    const Car(
-      model: 'Fortuner Gr',
-      distance: 870,
-      fuelCapacity: 50,
-      pricePerHour: 45,
-    ),
-    const Car(
-      model: 'Fortuner Gr',
-      distance: 870,
-      fuelCapacity: 50,
-      pricePerHour: 45,
-    )
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Choose Your Car'),
       ),
-      body: Container(
-        child: ListView.separated(
-          itemBuilder: (context, index) {
-            final car = carList[index];
-            return GestureDetector(
-              child: CarCard(car: car),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CarDetailsPage(
+      body: BlocBuilder<CarBloc, CarState>(
+        builder: (BuildContext context, CarState state) {
+          if (state is CarsLoaded) {
+            return ListView.separated(
+              itemBuilder: (context, index) {
+                final car = state.cars[index];
+                return GestureDetector(
+                  child: CarCard(car: car),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CarDetailsPage(
                           car: car,
-                        )));
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              itemCount: state.cars.length,
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(
+                  height: 10,
+                );
               },
             );
-          },
-          itemCount: carList.length,
-          separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(
-              height: 10,
+          } else if (state is CarsLoading) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
             );
-          },
-        ),
+          } else if (state is CarsError) {
+            return Center(
+              child: Text('error: ${state.message}'),
+            );
+          }
+          return Container();
+        },
       ),
     );
   }
